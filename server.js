@@ -1,30 +1,31 @@
-const TelegramBot = require('node-telegram-bot-api');
-require('dotenv').config();
+import requests
+import json
+from telegram.ext import Updater, CommandHandler
 
-// replace the value below with the Telegram token you receive from @BotFather
-const token = process.env.TOKEN;
+def download_reel(url):
+    # code to download reel from Instagram using the URL
+    pass
 
-// Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(token, { polling: true });
+def start(update, context):
+    update.message.reply_text("Welcome! Share an Instagram reel link and I'll download it for you.")
 
-// Matches "/echo [whatever]"
-bot.onText(/\/echo (.+)/, (msg, match) => {
-    // 'msg' is the received Message from Telegram
-    // 'match' is the result of executing the regexp above on the text content
-    // of the message
+def reel_downloader(update, context):
+    url = update.message.text
+    if 'instagram.com/reel' in url:
+        update.message.reply_text("Downloading reel...")
+        download_reel(url)
+        update.message.reply_text("Reel downloaded!")
+    else:
+        update.message.reply_text("Invalid URL. Please share a link to an Instagram reel.")
 
-    const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
+def main():
+    # Set up Telegram bot
+    updater = Updater("5944391940:AAFPF1_V_MH5eRDKn1NDFKHAavKU1i8tNw0", use_context=True)
+    dp = updater.dispatcher
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(MessageHandler(Filters.text, reel_downloader))
+    updater.start_polling()
+    updater.idle()
 
-    // send back the matched "whatever" to the chat
-    bot.sendMessage(chatId, resp);
-});
-
-// Listen for any kind of message. There are different kinds of
-// messages.
-bot.on('message', (msg) => {
-    const chatId = msg.chat.id;
-
-    // send a message to the chat acknowledging receipt of their message
-    bot.sendMessage(chatId, 'Received your message');
-});
+if __name__ == '__main__':
+    main()
