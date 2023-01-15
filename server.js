@@ -2,6 +2,12 @@ import requests
 import json
 from telegram.ext import Updater, CommandHandler
 
+const TelegramBot = require('node-telegram-bot-api');
+require('dotenv').config();
+
+// replace the value below with the Telegram token you receive from @BotFather
+const token = process.env.5944391940:AAFPF1_V_MH5eRDKn1NDFKHAavKU1i8tNw0;
+
 def download_reel(url):
     # code to download reel from Instagram using the URL
     pass
